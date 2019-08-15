@@ -2,9 +2,9 @@
   "name": "tfjs-yolo-demo",
   "version": "0.0.2",
   "description": "tfjs-yolo-demo",
-  "main": "./src/index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --hot",
+    "start": "node server.js",
     "build": "webpack --mode production"
   },
   "author": "Qian Sha",
