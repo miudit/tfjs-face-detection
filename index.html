@@ -21,22 +21,41 @@
   <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 
   <h1><a href="https://github.com/shaqian/tfjs-yolo" target="_blank">tfjs-yolo</a> </h1>
-  <div class="description">
-    <h4>
-      In browser
-      <a href="https://pjreddie.com/darknet/yolo/" target="_blank">YOLO</a> object detection with
-      <a href="https://js.tensorflow.org/" target="_blank">Tensorflow.js</a>. <br />
-      Supports YOLO v3 and Tiny YOLO v1, v2, v3.
-    </h4>
-  </div>
 
   <div class="container">
-    <div class="button-group">
-      <button id="v3">YOLOv3 (236MB)</button>
-      <button id="v1tiny">Tiny YOLOv1 (60MB)</button>
-      <button id="v2tiny">Tiny YOLOv2 (43MB)</button>
-      <button id="v3tiny">Tiny YOLOv3 (34MB)</button>
+    <div class="button-group" style="text-align: center; display: block;">
+      <button id="v3" style="display: none;">YOLOv3 (236MB)</button>
+      <button id="v1tiny" style="display: none;">Tiny YOLOv1 (60MB)</button>
+      <button id="v2tiny" style="display: none;">Tiny YOLOv2 (43MB)</button>
+      <button id="v3tiny">Load model (V3 tiny, 34MB)</button>
+      <!--<button id="show">Show/Hide video</button>-->
     </div>
+  </div>
+
+  <div class="container" style="margin: 10px;">
+    interval
+    <select id="interval" style="margin-left: 10px;">
+      <option value="100">0.1s</option>
+      <option value="200">0.2s</option>
+      <option value="300">0.3s</option>
+      <option value="400">0.4s</option>
+      <option value="500">0.5s</option>
+      <option value="600">0.6s</option>
+      <option value="700">0.7s</option>
+      <option value="800">0.8s</option>
+      <option value="900">0.9s</option>
+      <option value="1000">1.0s</option>
+      <option value="1100">1.1s</option>
+      <option value="1200">1.2s</option>
+      <option value="1300">1.3s</option>
+      <option value="1400">1.4s</option>
+      <option value="1500">1.5s</option>
+      <option value="1600">1.6s</option>
+      <option value="1700">1.7s</option>
+      <option value="1800">1.8s</option>
+      <option value="1900">1.9s</option>
+      <option value="2000">2.0s</option>
+    </select>
   </div>
 
   <div class="container">

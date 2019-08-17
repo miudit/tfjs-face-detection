@@ -20,6 +20,8 @@ const v3 = document.getElementById('v3');
 const v1tiny = document.getElementById('v1tiny');
 const v2tiny = document.getElementById('v2tiny');
 const v3tiny = document.getElementById('v3tiny');
+const _interval = document.getElementById('interval');
+//const show = document.getElementById('show');
 
 let myYolo;
 let selected;
@@ -32,6 +34,17 @@ let selected;
     v1tiny.addEventListener('click', () => load(v1tiny));
     v2tiny.addEventListener('click', () => load(v2tiny));
     v3tiny.addEventListener('click', () => load(v3tiny));
+    /*
+    show.addEventListener('click', () => (function () {
+      if(webcam.style.display == "none") {
+        console.log("show")
+        webcam.style.display = "block"
+      } else {
+        console.log("hide")
+        webcam.style.display = "none"
+      }
+    }()));
+    */
 
     run();
   } catch (e) {
@@ -119,16 +132,20 @@ function progress(totalModel) {
 }
 
 async function run() {
-  let interval = 1;
+  let interval = 100
+  if (_interval) {
+    interval = _interval.options[_interval.selectedIndex].value;
+  }
+  console.log("interval = " + interval)
   if (myYolo) {
     let threshold = .3;
     if (selected == v3tiny)
       threshold = .2;
     else if (selected == v3)
-      interval = 10;
+      interval = 1000;
     await predict(threshold);
   }
-  setTimeout(run, interval * 100);
+  setTimeout(run, interval);
 }
 
 async function predict(threshold) {
