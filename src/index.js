@@ -22,6 +22,8 @@ const v2tiny = document.getElementById('v2tiny');
 const v3tiny = document.getElementById('v3tiny');
 const _interval = document.getElementById('interval');
 //const show = document.getElementById('show');
+const predict_button = document.getElementById('predict');
+const calc_time = document.getElementById('calc_time');
 
 let myYolo;
 let selected;
@@ -45,8 +47,10 @@ let selected;
       }
     }()));
     */
+   let threshold = .3;
+   predict_button.addEventListener('click', () => predict(threshold));
 
-    run();
+    //run();
   } catch (e) {
     console.error(e);
   }
@@ -155,8 +159,10 @@ async function predict(threshold) {
   const boxes = await myYolo.predict(webcam, { scoreThreshold: threshold });
   const end = performance.now();
 
+
   console.log(`Inference took ${end - start} ms`);
   console.log(`End with ${tf.memory().numTensors} tensors`);
+  calc_time.innerHTML = `計算時間；${end - start} ms`
 
   drawBoxes(boxes);
 }
