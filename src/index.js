@@ -165,6 +165,7 @@ async function predict(threshold) {
   calc_time.innerHTML = `計算時間；${end - start} ms`
 
   drawBoxes(boxes);
+  predict(threshold)
 }
 
 let colors = {};
