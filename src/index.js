@@ -21,6 +21,7 @@ const v1tiny = document.getElementById('v1tiny');
 const v2tiny = document.getElementById('v2tiny');
 const v3tiny = document.getElementById('v3tiny');
 const _interval = document.getElementById('interval');
+const input_size = document.getElementById('input_size');
 //const show = document.getElementById('show');
 const predict_button = document.getElementById('predict');
 const calc_time = document.getElementById('calc_time');
@@ -153,18 +154,21 @@ async function run() {
 }
 
 async function predict(threshold) {
+  const inputSize = input_size.options[input_size.selectedIndex].value;
+  console.log(inputSize)
+
   console.log(`Start with ${tf.memory().numTensors} tensors`);
 
   const start = performance.now();
-  const boxes = await myYolo.predict(webcam, { scoreThreshold: threshold });
+  const boxes = await myYolo.predict(webcam, { scoreThreshold: threshold, inputSize: inputSize });
   const end = performance.now();
-
 
   console.log(`Inference took ${end - start} ms`);
   console.log(`End with ${tf.memory().numTensors} tensors`);
   calc_time.innerHTML = `計算時間；${end - start} ms`
 
   drawBoxes(boxes);
+
   predict(threshold)
 }
 
@@ -178,6 +182,11 @@ function drawBoxes(boxes) {
   const ch = webcam.clientHeight;
   const vw = webcam.videoWidth;
   const vh = webcam.videoHeight;
+
+  console.log("cw = ", cw)
+  console.log("ch = ", ch)
+  console.log("vw = ", vw)
+  console.log("vh = ", vh)
 
   const scaleW = cw / vw;
   const scaleH = ch / vh;
