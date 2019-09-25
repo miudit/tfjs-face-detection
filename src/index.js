@@ -169,7 +169,7 @@ async function predict(threshold) {
 
   drawBoxes(boxes);
 
-  predict(threshold)
+  setTimeout(predict, 100, threshold)
 }
 
 let colors = {};
@@ -178,10 +178,10 @@ function drawBoxes(boxes) {
   console.log(boxes);
   rects.innerHTML = '';
 
-  const cw = webcam.clientWidth;
-  const ch = webcam.clientHeight;
-  const vw = webcam.videoWidth;
-  const vh = webcam.videoHeight;
+  const cw = Math.abs(webcam.clientWidth);
+  const ch = Math.abs(webcam.clientHeight);
+  const vw = Math.abs(webcam.videoWidth);
+  const vh = Math.abs(webcam.videoHeight);
 
   console.log("cw = ", cw)
   console.log("ch = ", ch)
@@ -190,6 +190,11 @@ function drawBoxes(boxes) {
 
   const scaleW = cw / vw;
   const scaleH = ch / vh;
+
+  console.log("scaleW = ", scaleW)
+  console.log(scaleW)
+  console.log("scaleH = ", scaleH)
+  console.log(scaleH)
 
   wrapper.style.width = `${cw}px`;
   wrapper.style.height = `${ch}px`;
