@@ -9,49 +9,25 @@ if ('serviceWorker' in navigator) {
 
 import './styles/index.scss';
 import * as tf from '@tensorflow/tfjs';
-import yolo from 'tfjs-yolo';
+import face_detection from './face_detection';
 
 const loader = document.getElementById('loader');
 const spinner = document.getElementById('spinner');
 const webcam = document.getElementById('webcam');
 const wrapper = document.getElementById('webcam-wrapper');
 const rects = document.getElementById('rects');
-const v3 = document.getElementById('v3');
-const v1tiny = document.getElementById('v1tiny');
-const v2tiny = document.getElementById('v2tiny');
-const v3tiny = document.getElementById('v3tiny');
-const _interval = document.getElementById('interval');
-const input_size = document.getElementById('input_size');
-//const show = document.getElementById('show');
+const load_button = document.getElementById('load');
 const predict_button = document.getElementById('predict');
-const calc_time = document.getElementById('calc_time');
 
-let myYolo;
-let selected;
+let model;
 
 (async function main() {
   try {
     await setupWebCam();
 
-    v3.addEventListener('click', () => load(v3));
-    v1tiny.addEventListener('click', () => load(v1tiny));
-    v2tiny.addEventListener('click', () => load(v2tiny));
-    v3tiny.addEventListener('click', () => load(v3tiny));
-    /*
-    show.addEventListener('click', () => (function () {
-      if(webcam.style.display == "none") {
-        console.log("show")
-        webcam.style.display = "block"
-      } else {
-        console.log("hide")
-        webcam.style.display = "none"
-      }
-    }()));
-    */
-   let threshold = .3;
-   predict_button.addEventListener('click', () => predict(threshold));
-
-    //run();
+    load_button.addEventListener('click', () => load(load_button));
+    let threshold = .3;
+    predict_button.addEventListener('click', () => predict(threshold));
   } catch (e) {
     console.error(e);
   }
@@ -69,16 +45,9 @@ async function setupWebCam() {
 }
 
 async function load(button) {
-  if (button == v3) {
-    var r = confirm("Full YOLO inference is slow in browser and may take 30+ seconds to predict one picture. Do you want to continue?");
-    if (!r) {
-      return;
-    }
-  }
-
-  if (myYolo) {
-    myYolo.dispose();
-    myYolo = null;
+  if (model) {
+    model.dispose();
+    model = null;
   }
 
   rects.innerHTML = '';
@@ -87,33 +56,14 @@ async function load(button) {
   setButtons(button);
 
   setTimeout(async () => {
-    switch (button) {
-      case v3:
-        progress(60);
-        myYolo = await yolo.v3();
-        break;
-      case v1tiny:
-        progress(16);
-        myYolo = await yolo.v1tiny();
-        break;
-      case v2tiny:
-        progress(11);
-        myYolo = await yolo.v2tiny();
-        break;
-      default:
-        progress(9);
-        myYolo = await yolo.v3tiny();
-    }
+    progress(6);
+    model = await face_detection.detector();
   }, 200);
 }
 
 function setButtons(button) {
-  v3.className = '';
-  v1tiny.className = '';
-  v2tiny.className = '';
-  v3tiny.className = '';
+  load_button.className = '';
   button.className = 'selected';
-  selected = button;
 }
 
 function progress(totalModel) {
@@ -142,25 +92,18 @@ async function run() {
     interval = _interval.options[_interval.selectedIndex].value;
   }
   console.log("interval = " + interval)
-  if (myYolo) {
+  if (model) {
     let threshold = .3;
-    if (selected == v3tiny)
-      threshold = .2;
-    else if (selected == v3)
-      interval = 1000;
     await predict(threshold);
   }
   setTimeout(run, interval);
 }
 
 async function predict(threshold) {
-  const inputSize = input_size.options[input_size.selectedIndex].value;
-  console.log(inputSize)
-
   console.log(`Start with ${tf.memory().numTensors} tensors`);
 
   const start = performance.now();
-  const boxes = await myYolo.predict(webcam, { scoreThreshold: threshold, inputSize: inputSize });
+  const boxes = await model.predict(webcam, { scoreThreshold: threshold });
   const end = performance.now();
 
   console.log(`Inference took ${end - start} ms`);

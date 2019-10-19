@@ -8,7 +8,8 @@ log/
 node_modules/
 bower_components/
 backup/
-dist/model/
+dist/
+!dist/model/
 
 ## Files
 result.xml
