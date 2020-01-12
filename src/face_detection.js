@@ -47,7 +47,7 @@ async function _predict(
   let imageTensor = tf.browser.fromPixels(canvas, 3);
   imageTensor = imageTensor.expandDims(0).toFloat().div(tf.scalar(255));
 
-  let outputs = model.executeAsync(imageTensor);
+  let outputs = await model.executeAsync(imageTensor);
 
   ///////
 
