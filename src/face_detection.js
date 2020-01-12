@@ -7,7 +7,8 @@ const SCORE_THRESHOLD = .5;
 const IOU_THRESHOLD = .3;
 
 async function _loadModel() {
-  return await tf.loadGraphModel("https://raw.githubusercontent.com/miudit/tfjs-yolo-demo/master/dist/model/model.json");
+  //return await tf.loadGraphModel("https://raw.githubusercontent.com/miudit/tfjs-yolo-demo/master/dist/model/model.json");
+  return await tf.loadGraphModel("https://raw.githubusercontent.com/miudit/tfjs-face-detection/master/dist/model2/model.json");
 }
 
 async function _predict(
